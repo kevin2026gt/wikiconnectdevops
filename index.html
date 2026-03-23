@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure DevOps Connection Setup - Wiki</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f6f8fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            background: white;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar h2 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #24292e;
+            text-transform: uppercase;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar li {
+            margin: 8px 0;
+        }
+        
+        .sidebar a {
+            text-decoration: none;
+            color: #0366d6;
+            font-size: 13px;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        
+        .sidebar a:hover {
+            background-color: #f6f8fa;
+            color: #0256c7;
+        }
+        
+        .sidebar a.level-2 {
+            padding-left: 25px;
+            font-size: 12px;
+            color: #586069;
+        }
+        
+        .main-content {
+            background: white;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 30px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-content h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #24292e;
+            border-bottom: 2px solid #e1e4e8;
+            padding-bottom: 15px;
+        }
+        
+        .main-content h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #24292e;
+            border-left: 4px solid #0366d6;
+            padding-left: 15px;
+        }
+        
+        .main-content h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            color: #24292e;
+        }
+        
+        .main-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            color: #24292e;
+        }
+        
+        .main-content p {
+            margin-bottom: 15px;
+            color: #24292e;
+            line-height: 1.8;
+        }
+        
+        .main-content ul, .main-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .main-content li {
+            margin-bottom: 8px;
+            color: #24292e;
+        }
+        
+        .main-content code {
+            background-color: #f6f8fa;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-family: "SFMono-Regular", "Consolas", "Liberation Mono", "Menlo", monospace;
+            font-size: 13px;
+            color: #e83e8c;
+        }
+        
+        .main-content pre {
+            background-color: #2d2d2d;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .main-content pre code {
+            background-color: transparent;
+            color: #f8f8f2;
+            padding: 0;
+        }
+        
+        .main-content blockquote {
+            background-color: #f6f8fa;
+            border-left: 4px solid #0366d6;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 3px;
+        }
+        
+        .main-content blockquote p {
+            margin-bottom: 0;
+        }
+        
+        .main-content a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        
+        .main-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .main-content strong {
+            font-weight: 600;
+            color: #24292e;
+        }
+        
+        .main-content em {
+            font-style: italic;
+            color: #586069;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 6px 6px 0 0;
+        }
+        
+        .header h1 {
+            border: none;
+            padding: 0;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .main-content h1 {
+                font-size: 24px;
+            }
+            
+            .main-content h2 {
+                font-size: 20px;
+            }
+        }
+        
+        .hljs {
+            background: #2d2d2d !important;
+            color: #f8f8f2 !important;
+        }
+        
+        .toc-link {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Contents</h2>
+            <ul id="toc-menu"></ul>
+        </aside>
+        
+        <main class="main-content">
+            <div id="content"></div>
+        </main>
+    </div>
+    
+    <script>
+        const markdown = `# Azure DevOps Connection Setup
+
+This document provides instructions for setting up a connection to the Azure DevOps Portfolio project to read User Stories (US).
+
+## Azure DevOps Details
+
+- **Organization**: ConduentDevOps
+- **Project**: Portfolio
+- **URL**: https://dev.azure.com/ConduentDevOps/Portfolio
+
+## Prerequisites
+
+1. **Active Azure DevOps Account**: You must have an account with access to the ConduentDevOps organization and Portfolio project
+2. **Node.js**: Ensure Node.js is installed (required for this Playwright project)
+3. **npm packages**: Azure DevOps Web API client
+
+## Setup Steps
+
+### 1. Install Azure DevOps API Client
+
+\`\`\`bash
+npm install azure-devops-node-api
+\`\`\`
+
+### 2. Create a Personal Access Token (PAT)
+
+A Personal Access Token is required for authentication:
+
+1. Navigate to https://dev.azure.com/ConduentDevOps
+2. Click your **Profile icon** (top right)
+3. Select **Personal access tokens**
+4. Click **New Token**
+5. Configure the token:
+   - **Name**: \`Playwright_Tests\` (or your preferred name)
+   - **Organization**: Select \`ConduentDevOps\`
+   - **Expiration**: Set appropriate duration (90 days recommended)
+   - **Scopes**: Select at minimum:
+     - \`Work Items (Read)\`
+     - \`Code (Read)\` (if needed)
+6. Click **Create** and **copy the token** (you won't see it again)
+
+### 3. Store Your PAT Securely
+
+**Option A: Environment Variables (Recommended)**
+
+\`\`\`bash
+# For Windows PowerShell:
+$env:AZURE_DEVOPS_PAT = "your_pat_token_here"
+$env:AZURE_DEVOPS_ORG = "ConduentDevOps"
+$env:AZURE_DEVOPS_PROJECT = "Portfolio"
+\`\`\`
+
+**Option B: .env File**
+
+Create a \`.env\` file in your project root:
+
+\`\`\`
+AZURE_DEVOPS_PAT=your_pat_token_here
+AZURE_DEVOPS_ORG=ConduentDevOps
+AZURE_DEVOPS_PROJECT=Portfolio
+AZURE_DEVOPS_URL=https://dev.azure.com
+\`\`\`
+
+Then install and use dotenv:
+
+\`\`\`bash
+npm install dotenv
+\`\`\`
+
+### 4. Create Azure DevOps Connection Module
+
+Create \`lib/azureDevOpsClient.ts\`:
+
+\`\`\`typescript
+import * as azdev from "azure-devops-node-api";
+
+const orgUrl = process.env.AZURE_DEVOPS_URL || "https://dev.azure.com";
+const token = process.env.AZURE_DEVOPS_PAT || "";
+const project = process.env.AZURE_DEVOPS_PROJECT || "Portfolio";
+
+const authHandler = azdev.getPersonalAccessTokenHandler(token);
+const connection = new azdev.WebApi(orgUrl, authHandler);
+
+export async function getWorkItemsTrackingApi() {
+  return await connection.getWorkItemTrackingApi();
+}
+
+export async function getUserStories(): Promise<any[]> {
+  const witApi = await getWorkItemsTrackingApi();
+  
+  // Query for User Stories
+  const query = \`
+    SELECT [System.Id], [System.Title], [System.State], [System.AssignedTo], [System.Description]
+    FROM workitems
+    WHERE [System.TeamProject] = @project
+      AND [System.WorkItemType] = 'User Story'
+    ORDER BY [System.CreatedDate] DESC
+  \`;
+
+  const queryResult = await witApi.queryByWiql({ query }, project);
+  
+  if (queryResult.workItems && queryResult.workItems.length > 0) {
+    const ids = queryResult.workItems.map((wi) => wi.id);
+    const workItems = await witApi.getWorkItems(ids);
+    return workItems || [];
+  }
+  
+  return [];
+}
+
+export async function getUserStoryById(id: number): Promise<any> {
+  const witApi = await getWorkItemsTrackingApi();
+  return await witApi.getWorkItem(id);
+}
+\`\`\`
+
+### 5. Use in Your Tests
+
+Example usage in a Playwright test:
+
+\`\`\`typescript
+import { test, expect } from "@playwright/test";
+import { getUserStories } from "./lib/azureDevOpsClient";
+
+test.describe("Azure DevOps User Stories", () => {
+  test("should fetch user stories from Portfolio", async () => {
+    const stories = await getUserStories();
+    expect(stories.length).toBeGreaterThan(0);
+    console.log(\`Found \${stories.length} user stories\`);
+    
+    stories.forEach((story) => {
+      console.log(\`ID: \${story.id}, Title: \${story.fields["System.Title"]}\`);
+    });
+  });
+});
+\`\`\`
+
+## Troubleshooting
+
+### Authentication Errors
+
+- **401 Unauthorized**: Check that your PAT is correct and not expired
+- **403 Forbidden**: Verify you have access to the Portfolio project in ConduentDevOps organization
+
+### Connection Issues
+
+- Ensure you're using the correct organization URL: \`https://dev.azure.com/ConduentDevOps\`
+- Check firewall/proxy settings if behind corporate network
+- Verify the project name is exactly "Portfolio" (case-sensitive)
+
+### Token Expiration
+
+If your PAT expires, you'll need to:
+
+1. Generate a new token following step 2
+2. Update your environment variables or \`.env\` file
+3. Restart your test runner
+
+## Additional Resources
+
+- [Azure DevOps REST API Documentation](https://docs.microsoft.com/en-us/rest/api/azure/devops)
+- [Azure DevOps Node API GitHub](https://github.com/microsoft/azure-devops-node-api)
+- [Personal Access Tokens Guide](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)
+- [Work Item Query Language (WIQL)](https://docs.microsoft.com/en-us/azure/devops/boards/queries/wiql-syntax)
+
+## Security Notes
+
+- **Never** commit your PAT to version control
+- Use \`.gitignore\` to exclude \`.env\` files:
+  \`\`\`
+  .env
+  .env.local
+  *.env
+  \`\`\`
+- Rotate your PAT regularly (recommended every 90 days)
+- Use a service account PAT in CI/CD pipelines rather than personal tokens`;
+
+        // Parse markdown and set content
+        const html = marked.parse(markdown);
+        document.getElementById('content').innerHTML = html;
+        
+        // Highlight code blocks
+        document.querySelectorAll('pre code').forEach(block => {
+            hljs.highlightElement(block);
+        });
+        
+        // Generate table of contents
+        const headings = document.querySelectorAll('h2, h3');
+        const tocMenu = document.getElementById('toc-menu');
+        
+        headings.forEach((heading, index) => {
+            const id = `heading-${index}`;
+            heading.id = id;
+            
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `#${id}`;
+            a.textContent = heading.textContent;
+            
+            if (heading.tagName === 'H3') {
+                a.classList.add('level-2');
+            }
+            
+            li.appendChild(a);
+            tocMenu.appendChild(li);
+        });
+    </script>
+</body>
+</html>
