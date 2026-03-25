@@ -278,7 +278,23 @@ This document provides instructions for setting up a connection to the Azure Dev
 npm install azure-devops-node-api
 \`\`\`
 
-### 2. Create a Personal Access Token (PAT)
+### 2. Install Playwright
+
+Playwright is a testing framework that automates browser interactions:
+
+\`\`\`bash
+npm install --save-dev @playwright/test
+\`\`\`
+
+After installation, initialize Playwright in your project:
+
+\`\`\`bash
+npx playwright install
+\`\`\`
+
+This command downloads the necessary browser binaries (Chromium, Firefox, WebKit) required for testing.
+
+### 3. Create a Personal Access Token (PAT)
 
 A Personal Access Token is required for authentication:
 
@@ -295,7 +311,7 @@ A Personal Access Token is required for authentication:
      - \`Code (Read)\` (if needed)
 6. Click **Create** and **copy the token** (you won't see it again)
 
-### 3. Store Your PAT Securely
+### 4. Store Your PAT Securely
 
 **Option A: Environment Variables (Recommended)**
 
@@ -323,7 +339,7 @@ Then install and use dotenv:
 npm install dotenv
 \`\`\`
 
-### 4. Create Azure DevOps Connection Module
+### 5. Create Azure DevOps Connection Module
 
 Create \`lib/azureDevOpsClient.ts\`:
 
@@ -370,7 +386,7 @@ export async function getUserStoryById(id: number): Promise<any> {
 }
 \`\`\`
 
-### 5. Use in Your Tests
+### 6. Use in Your Tests
 
 Example usage in a Playwright test:
 
@@ -408,7 +424,7 @@ test.describe("Azure DevOps User Stories", () => {
 
 If your PAT expires, you'll need to:
 
-1. Generate a new token following step 2
+1. Generate a new token following step 3
 2. Update your environment variables or \`.env\` file
 3. Restart your test runner
 
